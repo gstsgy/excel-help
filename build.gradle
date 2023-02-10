@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+}
+
+group 'com.github'
+version '1.0-SNAPSHOT'
+
+repositories {
+    maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation 'org.apache.poi:poi-ooxml:3.13'
+}
+
+test {
+    useJUnitPlatform()
+}
