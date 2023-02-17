@@ -1,4 +1,4 @@
-package com.github.excel.help.bean;
+package com.gstsgy.tools.excel.bean;
 
 /***
  * 测试bean

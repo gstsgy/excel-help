@@ -1,15 +1,14 @@
-package com.github.excel.help.function;
+package com.gstsgy.tools.excel.function;
 
 /**
  *
  * @param <T> 目标对象类型
- * @param <R> 目标对象get返回类型
+ * @param <P> 目标对象set 参数类型
  */
-
 @FunctionalInterface
-public interface GetFunction<T,R> extends BaseFunction{
+public interface SetFunction<T,P> extends BaseFunction{
 
-    R getVal(T t);
+    void setVal(T t,P p);
 
     default String getFieldName(){
         String implMethodName = getMethodName();

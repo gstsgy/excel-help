@@ -1,7 +1,7 @@
-package com.github.excel.help.bean;
+package com.gstsgy.tools.excel.bean;
 
 
-import com.github.excel.help.function.SetFunction;
+import com.gstsgy.tools.excel.function.SetFunction;
 
 public class SetIgnore<T> implements SetFunction<T,Object> {
     @Override
