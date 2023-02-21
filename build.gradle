@@ -1,32 +1,34 @@
 plugins {
     id 'java'
     id 'java-library'
-    id 'maven-publish'
+    id 'maven'
+    id 'signing'
 }
 
-group 'com.gstsgy'
-version '1.0-SNAPSHOT'
 
+group = "io.github.gstsgy"
+archivesBaseName = "excel-help"
+version = "0.0.1-SNAPSHOT"
 repositories {
     maven {
         url 'https://maven.aliyun.com/repository/public'
     }
-    maven {
-        credentials {
-            username '601a3e6c4fb2132a19a0f68f'
-            password 'JSdchNt9]wJZ'
-        }
-        url 'https://packages.aliyun.com/maven/repository/2073455-release-bTtGJA/'
-    }
-    maven {
-        credentials {
-            username '601a3e6c4fb2132a19a0f68f'
-            password 'JSdchNt9]wJZ'
-        }
-        url 'https://packages.aliyun.com/maven/repository/2073455-snapshot-ic6AXe/'
-    }
+}
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
 }
 
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+artifacts {
+    archives javadocJar, sourcesJar
+}
+signing {
+    sign configurations.archives
+}
 dependencies {
     implementation 'org.apache.poi:poi-ooxml:3.13'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
@@ -36,24 +38,47 @@ dependencies {
 test {
     useJUnitPlatform()
 }
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId = 'tools-excel'
-            from components.java
-        }
-    }
+uploadArchives {
     repositories {
-        maven {
-            name 'wmsRepo'
-            url 'https://packages.aliyun.com/maven/repository/2073455-release-bTtGJA/'
-            credentials {
-                username '601a3e6c4fb2132a19a0f68f'
-                password 'JSdchNt9]wJZ'
+        mavenDeployer {
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
             }
-            authentication {
-                basic(BasicAuthentication)
-                digest(DigestAuthentication)
+
+            snapshotRepository(url: "https://s01.oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'excel-help'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'A application used as an example on how to set up'
+                //pushing  its components to the Central Repository.'
+                url 'https://github.com/gstsgy/excel-help'
+
+                scm {
+                    connection 'scm:git:https://github.com/gstsgy/excel-help.git'
+                    developerConnection 'scm:git:git@github.com:gstsgy/excel-help.git'
+                    url 'https://github.com/gstsgy/excel-help'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'excel'
+                        name 'guyue'
+                        email '122759654@qq.com'
+                    }
+                }
             }
         }
     }

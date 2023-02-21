@@ -12,8 +12,6 @@ import java.util.stream.Collectors;
 /**
  * @author guyue
  * @version 3.0
- * @description: TODO
- * @date 2021/11/8 上午9:53
  */
 public interface BaseFunction extends Serializable {
 
